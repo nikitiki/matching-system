@@ -17,14 +17,20 @@ class TDispatch
         // コントローラーインスタンス生成
         $c = new Controller_Manager( $request );
 
+        // コントローラーにDB定義
+//        $c->setDatabase( $db );
+
         // 指定コントローラーインスタンス生成
         $c->dispatch();
 
         // 指定コントローラーbeforefilter実行
-        $c->beforecFilter();
+        $c->beforeFilter();
 
         // 指定アクション実行
         $c->execute();
+
+        // 指定コントローラーafterFilter実行
+        $c->afterFilter();
 
         /**
          * View設定

@@ -6,9 +6,9 @@ class RootController extends Controller
     /**
      * indexアクション
      */
-    public index() {
+    public function index() {
 
-        echo 'root index execute'
+        echo 'root index execute';
     }
 }
 ?>

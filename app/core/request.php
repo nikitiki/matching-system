@@ -51,11 +51,11 @@ class Request
         $commandArray = array_values( $commandArray );
 
         // コントローラー名セット
-        $controllerName = ( is_null( $commandArray[0] ) ) ? 'root' : $commandArray[0];
+        $controllerName = ( empty( $commandArray[0] ) ) ? 'root' : $commandArray[0];
         $this->setController( $controllerName );
-        
+       
         // アクション名をセット
-        $actionName = ( is_null($commandArray[1]) ) ? 'index' : $commandArray[1];
+        $actionName = ( empty($commandArray[1]) ) ? 'index' : $commandArray[1];
         $this->setAction( $actionName );
 
         $this->params = $this->setParams( array_slice( $commandArray, 2 ) );
@@ -81,7 +81,7 @@ class Request
 
     }
 
-    public function getAction( $actionName ) {
+    public function getAction() {
 
         return $this->action;
 
@@ -93,7 +93,7 @@ class Request
 
     }
 
-    public function getParams( $params ) {
+    public function getParams() {
 
         return $this->params;
 

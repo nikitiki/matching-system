@@ -7,7 +7,7 @@ class ErrorController extends Controller
     public function index() {
 
         // @TODO 日本語メッセージ別ファイルに定義
-        trigger_error( '指定したコントローラーがありません', E_USER_ERROR );
+        trigger_error( '指定したコントローラーがありません', E_USER_NOTICE );
 
     }
 

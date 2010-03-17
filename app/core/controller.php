@@ -2,7 +2,7 @@
 class Controller
 {
 
-    var public $request;
+    public $request;
 
     /**
      * コンストラクタ

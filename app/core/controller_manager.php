@@ -40,22 +40,29 @@ class Controller_Manager
      */
     public function dispatch() {
 
-        // 実行コントローラー名取得
-        $controller = $this->request_obj->getController() . '_controller';
+        // 実行ファイル
+        $controller = $this->request_obj->getController();
+
+        // 実行コントローラーファイル取得
+        $controller_file = $controller . '_controller.php';
 
         // 実行コントローラーまでのパス取得
-        $controller_path = APP_CONTROLLERS_PATH . ucfirst( $controller ) . '.php';
+        $controller_path = APP_CONTROLLERS_PATH . $controller_file;
 
         // 実行コントローラー存在チェック
-        if( file_exists( $controller_path ) === false ) {
+        if( file_exists( $controller_path ) == false ) {
+            $controller = 'error';
             $controller_path = APP_CONTROLLERS_PATH . 'error_controller.php';
         }
 
         // 実行コントローラー読み込み
         include_once( $controller_path );
 
+        // クラス名にフォーマット
+        $controller_class = ucfirst( $controller ) . 'Controller';
+
         // インスタンス生成
-        $this->con_obj = new $controller . ( $this->request_obj );
+        $this->con_obj = new $controller_class( $this->request_obj );
         
     }
 
