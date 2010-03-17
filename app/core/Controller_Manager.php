@@ -4,30 +4,30 @@
  */
 class Controller_Manager
 {
+
     /**
-     * コントローラーファイル指定変数
+     *  リクエストオブジェクト
+     *
+     * @var obj 
+     * @access private
+     */
+    private $request_obj = null;
+
+    /**
+     * コントローラーオブジェクト
      * 
      * @var mixed
      * @access private
      */
-    private $controller = null;
-
-
-    /**
-     * POST または GETパラメータ格納変数
-     *
-     * @var mixed
-     * @var private
-     */
-    private $params;
+    private $con_obj = null;
 
 
     /**
      * __construct
      */
-    public function __construct() {
+    public function __construct( &$request = null ) {
 
-        $this->route();
+        $this->request_obj = $request;
 
     }
 
@@ -38,44 +38,64 @@ class Controller_Manager
      * @access private
      * @return 
      */
-    private function route() {
+    public function dispatch() {
 
-        $path = $_SERVER['REQUEST_URI'];
-        $requestURI = explode( '/', $_SERVER['REQUEST_URI'] );
-        $scriptName = explode( '/', $_SERVER['SCRIPT_NAME'] );
+        // 実行コントローラー名取得
+        $controller = $this->request_obj->getController() . '_controller';
 
-        // 前者と後者の差異を比べて後者にないものを取得
-        $commandArray = array_diff_assoc( $requestURI, $scriptName );
+        // 実行コントローラーまでのパス取得
+        $controller_path = APP_CONTROLLERS_PATH . ucfirst( $controller ) . '.php';
 
-        // 配列を再配置
-        $commandArray = array_values( $commandArray );
-
-        // コントローラー
-        
-            $this->controller = $match[1];
-
-        // 初期化
-        $this->params = array();
-
-        // パラメータ格納
-        $idx = strpos( $path, '?' );
-        
-        // GETかPOSTか
-        if( $idx !== false ) {
-
-            // GETの場合
-            $get = array();
-
-            // ?以降を取得
-            parse_str( substr( $path, $idx+1 ), $get );
-            $this->params['post'] = $get;
+        // 実行コントローラー存在チェック
+        if( file_exists( $controller_path ) === false ) {
+            $controller_path = APP_CONTROLLERS_PATH . 'error_controller.php';
         }
 
-        if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+        // 実行コントローラー読み込み
+        include_once( $controller_path );
 
-            $this->params['post'] = $_POST;
+        // インスタンス生成
+        $this->con_obj = new $controller . ( $this->request_obj );
+        
+    }
+
+
+    /**
+     * アクション実行前処理
+     */
+    public function beforeFilter() {
+        $this->con_obj->beforeFilter();
+    }
+
+
+    /**
+     * アクション実行
+     */
+    public function execute() {
+
+        // 指定アクション名取得
+        $action = $this->request_obj->getAction();
+
+        // 
+        if( empty( $action ) ) {
+
+            $action = 'index';
+
+        } elseif( !is_callable( array( &$this->con_obj, $action ) ) ) {
+
+            $action = 'error';
 
         }
+
+        $this->con_obj->$action();
+
+    }
+
+    /**
+     * アクション実行後処理
+     */
+    public function afterFilter() {
+        $this->con_obj->afterFilter();
     }
 
 
@@ -85,19 +105,8 @@ class Controller_Manager
      * @access public
      * @return string
      */
-    public function getController() {
-        return $this->controller;
-    }
-
-
-    /**
-     * パラメータ取得
-     *
-     * @access public
-     * @return array
-     */
-    public function getParams() {
-        return $this->params;
+    public function getCon_obj() {
+        return $this->con_obj;
     }
 
 }

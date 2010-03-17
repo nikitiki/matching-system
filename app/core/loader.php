@@ -13,8 +13,10 @@ define( 'APP_VIEWS_PATH',       APP_PATH. 'views/' );
 $_APP_REQUIRES = array(
      APP_CORE_PATH        . 'config.php',
      APP_CORE_PATH        . 'database.php',
+     APP_CORE_PATH        . 'request.php',
+     APP_CORE_PATH        . 'controller.php',
      APP_CORE_PATH        . 'dispatch.php',
-     APP_CORE_PATH        . 'Controller_Manager.php',
+     APP_CORE_PATH        . 'controller_manager.php',
      APP_CONTROLLERS_PATH . 'app_conroller.php',
      APP_VIEWS_PATH       . 'app_view.php',
 );
