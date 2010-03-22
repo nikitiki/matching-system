@@ -23,12 +23,23 @@ class Request
     private $params = array();
 
     /**
+     * モデル用パラメータ格納
+     */
+    private $data = array();
+
+    /**
      * コンストラクタ
      */
     public function __construct() {
 
         // URI解析処理
-       $this->uri_interpret();
+        $this->uri_interpret();
+
+        // リクエストハンドラー
+        $this->request_handler();
+
+        // セッションハンドラー
+        $this->session_handler();
 
     }
 
@@ -61,6 +72,57 @@ class Request
         $this->params = $this->setParams( array_slice( $commandArray, 2 ) );
     }
     //}}}
+
+
+    /// {{{ request_handler
+    /**
+     * リクエストハンドラー
+     */
+    private function request_handler() {
+
+        if( count($_GET) )     $this->params['get']     = $_GET;
+        if( count($_POST) )    $this->params['post']    = $_POST;
+        if( count($_REQUEST) ) $this->params['request'] = $__REQUEST;
+
+        $this->model_item_handler( $_GET );
+        $this->model_item_handler( $_POST );
+    
+    }
+    // }}}
+
+
+    // {{{ model_item_handler
+    /**
+     *
+     */
+    private function model_item_handler( $requests ) {
+
+        foreach( $requests as $key => $request ) {
+
+            if( strpos( $key, '/' ) !== FALSE ) {
+
+                list( $model, $element ) = explode( '/', $reqeust );
+                $this->data[$model][$element] = $request;
+            }
+
+        }
+
+    }
+    // }}}
+
+
+    // {{{ session_handler
+    /**
+     *
+     */
+    private function session_handler() {
+
+
+
+
+    }
+    // }}}
+
 
     public function setController( $controllerName ) {
 
@@ -98,5 +160,19 @@ class Request
         return $this->params;
 
     }
+
+    public function setData( $name, $value ) {
+
+        $this->data[$name] = $value;
+
+    }
+
+    public function getData() {
+
+        return $this->data;
+
+    }
+
+
 }
 ?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * 実行ファイル指定クラス
+ * 指定ファイル実行クラス
  */
 class Controller_Manager
 {
@@ -20,6 +20,18 @@ class Controller_Manager
      * @access private
      */
     private $con_obj = null;
+
+
+    /**
+     * 実行コントローラー名格納
+     */
+    private $controller_name;
+
+
+    /**
+     * 実行アクション名格納
+     */
+    private $action_name;
 
 
     /**
@@ -54,6 +66,9 @@ class Controller_Manager
             $controller = 'error';
             $controller_path = APP_CONTROLLERS_PATH . 'error_controller.php';
         }
+
+        // 実行コントローラー名格納
+        $this->controller_name = $controller;
 
         // 実行コントローラー読み込み
         include_once( $controller_path );
@@ -94,6 +109,10 @@ class Controller_Manager
 
         }
 
+        // 実行アクション名格納
+        $this->action_name = $action;
+
+        // 指定アクション実行
         $this->con_obj->$action();
 
     }
@@ -107,13 +126,39 @@ class Controller_Manager
 
 
     /**
-     * 実行コントローラー名取得
+     * 実行コントローラーオブジェクト取得
      *
      * @access public
      * @return string
      */
     public function getCon_obj() {
         return $this->con_obj;
+    }
+
+
+    /**
+     * 実行コントローラー名取得
+     *
+     * @access public
+     * @return string
+     */
+    public function getControllerName() {
+
+        return $this->controller_name;
+
+    }
+
+
+    /**
+     * 実行アクション名取得
+     *
+     * @access public
+     * @return string
+     */
+    public function getActionName() {
+
+       return  $this->action_name;
+
     }
 
 }

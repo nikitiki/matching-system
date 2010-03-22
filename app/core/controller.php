@@ -4,6 +4,8 @@ class Controller
 
     public $request;
 
+    public $template;
+
     /**
      * コンストラクタ
      */
@@ -25,6 +27,22 @@ class Controller
      */
     public function afterFilter(){}
 
+
+    /**
+     * レイアウト用テンプレート格納
+     */
+    public function setTemplate( $template ) {
+
+        $this->template = $template;
+
+    }
+
+    /**
+     * レイアウト用テンプレート取得
+     */
+    public function getTemplate() {
+        return $this->template;
+    }
 
     /**
      * 指定アクションがなかった場合このアクションを実行する

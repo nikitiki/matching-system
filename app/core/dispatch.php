@@ -32,10 +32,15 @@ class TDispatch
         // 指定コントローラーafterFilter実行
         $c->afterFilter();
 
-        /**
-         * View設定
-         */
-//        View_Manager::dispatch( $viewName );
+
+        // View設定
+        $v = new View_Manager( &$c, &$request );
+
+        // 指定ビューファイル設定
+        $v->setFile();
+
+        // 指定ビューファイル実行
+        $v->dispatch();
 
     }
 

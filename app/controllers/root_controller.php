@@ -1,5 +1,5 @@
 <?php
-class RootController extends Controller
+class RootController extends AppController
 {
 
     //{{{ index
@@ -8,7 +8,10 @@ class RootController extends Controller
      */
     public function index() {
 
-        echo 'root index execute';
+        $this->setTemplate( 'default' );
+
     }
+    // }}}
+
 }
 ?>
