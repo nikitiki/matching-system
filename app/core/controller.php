@@ -2,19 +2,37 @@
 class Controller
 {
 
-    public $request;
+    protected $request;
 
-    public $template;
+    protected $template;
+
+    protected $use;
 
     /**
      * コンストラクタ
      */
     public function __construct( &$request ){ 
 
+        // リクエストオブジェクト格納
         $this->request = $request;
 
+        // モデル初期化
+        $this->addModel();
     }
 
+
+    // {{{ addMoel
+    /**
+     * addModel
+     */
+    private function addModel() {
+
+        if( !empty( $this->use ) ) {
+
+        }
+
+    }
+    // }}}
 
     /**
      * アクション実行前処理

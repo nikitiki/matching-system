@@ -34,7 +34,7 @@ class TDispatch
 
 
         // View設定
-        $v = new View_Manager( &$c, &$request );
+        $v = new View_Manager( $c, $request );
 
         // 指定ビューファイル設定
         $v->setFile();

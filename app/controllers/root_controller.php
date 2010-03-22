@@ -2,6 +2,8 @@
 class RootController extends AppController
 {
 
+    var $use = array( 'user' );
+
     //{{{ index
     /**
      * indexアクション

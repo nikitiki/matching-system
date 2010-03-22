@@ -38,7 +38,7 @@ class View_Manager
     /**
      * コンストラクタ
      */
-    public function __construct( $controller_object, $request_object ) {
+    public function __construct( &$controller_object, &$request_object ) {
 
         $this->con_mng_obj = $controller_object;
         $this->con_obj     = $controller_object->getCon_obj();

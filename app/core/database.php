@@ -36,7 +36,7 @@ class TDatabase
                 $db_kind = ucfirst( DB_KIND_TT );
 
                 // DBインスタンス生成
-                $db = &new $db_kind();
+                $db = new $db_kind();
 
                 // 初期化
                 $config = array();

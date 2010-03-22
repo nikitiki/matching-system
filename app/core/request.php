@@ -35,8 +35,14 @@ class Request
         // URI解析処理
         $this->uri_interpret();
 
-        // リクエストハンドラー
-        $this->request_handler();
+        // ノーマライズトハンドラー
+        $this->normalize_handler();
+
+        // モデル用リクエストハンドラー
+        $this->model_item_handler( $_GET );
+
+        // モデル用リクエストハンドラー
+        $this->model_item_handler( $_POST );
 
         // セッションハンドラー
         $this->session_handler();
@@ -74,26 +80,49 @@ class Request
     //}}}
 
 
-    /// {{{ request_handler
+    /// {{{ normalize_handler
     /**
-     * リクエストハンドラー
+     * ノーマライズハンドラー
+     *
+     * リクエストをノーマライズ。magic_quotes_gpcがonならば
+     * クォートされた文字列を元に戻す
      */
-    private function request_handler() {
+    private function normalize_handler() {
 
-        if( count($_GET) )     $this->params['get']     = $_GET;
-        if( count($_POST) )    $this->params['post']    = $_POST;
-        if( count($_REQUEST) ) $this->params['request'] = $__REQUEST;
+        if( function_exists( 'get_magic_quotes_gpc' && get_magic_quotes_gpc() ) ) {
 
-        $this->model_item_handler( $_GET );
-        $this->model_item_handler( $_POST );
-    
+            if( isset( $_GET ) )
+                $_GET     = $this->strip_slashes( $_GET );
+            if( isset( $_POST ) )
+                $_POST    = $this->strip_slashes( $_POST );
+            if( isset( $_REQUEST ) )
+                $_REQUEST = $this->strip_slashes( $_REQUEST );
+            if( isset( $_COOKIE ) )
+                $_COOKIE  = $this->strip_slashes( $_COOKIE );
+
+        }
+
+    }
+    // }}}
+
+    // {{{ strip_slashes
+    /**
+     * strip_slasheshes
+     *
+     * magic_quotes_gpcがonならばクォートされた文字列を元に戻す
+     *
+     */
+    public function stripe_slashes( &$data ) {
+
+        return is_array( $data ) ? array_map( array( $this, 'stripe_slashes' ), $data ) : stripslashes( $data );
+
     }
     // }}}
 
 
     // {{{ model_item_handler
     /**
-     *
+     * モデル用リクエストハンドラー
      */
     private function model_item_handler( $requests ) {
 
@@ -123,6 +152,51 @@ class Request
     }
     // }}}
 
+
+    // {{{ getParam
+    /**
+     * GET または POST指定パラメータを取得
+     * 指定したパラメータがなかったら第二引数で定義した値を取得
+     *
+     * @param string パラメータ名
+     * @param mixed 指定パラメータがない場合の初期値
+     * @return mixed GET or POST値
+     */
+    public function getParam( $name, $default = null ) {
+
+        return isset( $_GET[ $name ] ) ? $_GET[ $name ] : ( isset( $_POST[ $name ] ) ? $_POST[ $name ] : $default );
+
+    }
+    // }}}
+
+
+    // {{{ getQuery
+    /**
+     * GET値取得
+     */
+    public function getQuery( $name, $default = null ) {
+        return isset( $_GET[ $name ] ) ? $_GET[ $name ] : $default;
+    }
+    // }}}
+
+    // {{{ getPost
+    /**
+     * POST値取得
+     */
+    public function getPost( $name, $default = null ) {
+        return isset( $_POST[ $name ] ) ? $_POST[ $name ] : $default;
+    }
+    // }}}
+
+
+    // {{{ set
+    /**
+     * controllerで格納した変数をviewで利用
+     */
+    public function set( $name, $value ) {
+
+        $this->params[ $name ] = $value;
+    }
 
     public function setController( $controllerName ) {
 
