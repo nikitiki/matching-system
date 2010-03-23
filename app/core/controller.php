@@ -35,7 +35,7 @@ class Controller
                 $model_class = ucfirst( $model );
 
                 // モデルのパス
-                $model_path = APP_MODELS_PATH . $model . 'php';
+                $model_path = APP_MODELS_PATH . $model . '.php';
 
                 // モデルファイル存在チェック
                 if( !file_exists( $model_path ) ) {

@@ -5,6 +5,9 @@
 class TDatabase 
 {
 
+    // DB接続オブジェクト
+    static $con;
+
     // DBオブジェクト
     static $db;
 
@@ -27,7 +30,7 @@ class TDatabase
             !is_null( DB_NAME_TT )
         ) {
 
-            if( !self::$db ) {
+            if( !self::$con && !self::$db ) {
 
                 // 該当DB接続ファイル読み込み
                 include_once( APP_DB_PATH . DB_KIND_TT . '.php' );
@@ -47,12 +50,16 @@ class TDatabase
                 $config['port']    = DB_PORT_TT;
 
                 // DB接続処理
-                $db->connect( $config );
+                $con = $db->connect( $config );
+
+                self::$db  = $db;
+
+                self::$con = $con;
 
             }
         }
 
-        return self::$db;
+        return array( 'con' =>self::$con, 'db' => self::$db );
     }
 }
 ?>

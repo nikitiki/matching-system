@@ -20,6 +20,7 @@ $_APP_REQUIRES = array(
      APP_CORE_PATH        . 'dispatch.php',
      APP_CORE_PATH        . 'controller_manager.php',
      APP_CORE_PATH        . 'view_manager.php',
+     APP_CORE_PATH        . 'model.php',
      APP_CONTROLLERS_PATH . 'app_controller.php',
 );
 

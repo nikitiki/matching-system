@@ -8,17 +8,11 @@ class TDispatch
 
     function dispatch() {
 
-        // DB初期化
-        $db =  new TDatabase;
-
         // URI解析処理 リクエストパラメータ初期化処理 
         $request = new Request;
  
         // コントローラーインスタンス生成
         $c = new Controller_Manager( $request );
-
-        // コントローラーにDB定義
-//        $c->setDatabase( $db );
 
         // 指定コントローラーインスタンス生成
         $c->dispatch();

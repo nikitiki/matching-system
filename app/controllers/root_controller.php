@@ -6,11 +6,13 @@ class RootController extends AppController
 
     //{{{ index
     /**
-     * indexアクション
+     * index
      */
     public function index() {
 
         $this->setTemplate( 'default' );
+
+        $d = $this->user->selectPre();
 
     }
     // }}}
