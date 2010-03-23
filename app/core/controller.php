@@ -8,6 +8,9 @@ class Controller
 
     protected $use;
 
+    protected $util;
+
+    // {{{
     /**
      * コンストラクタ
      */
@@ -18,7 +21,14 @@ class Controller
 
         // モデル初期化
         $this->addModel();
+
+        // テンプレート初期化
+        $this->setTemplateInit();
+
+        // ユーティリティークラス読み込み
+        $this->util = new AppUtil();
     }
+    // }}}
 
 
     // {{{ addMoel
@@ -59,6 +69,18 @@ class Controller
     }
     // }}}
 
+    // {{{ setTemplateInit
+    /**
+     * レイアウト初期化
+     */
+    public function setTemplateInit() {
+
+         if( !empty( $this->layout ) ) {
+             $this->setTemplate( $this->layout );
+         }
+    }
+    // }}}
+
     /**
      * アクション実行前処理
      */
@@ -96,6 +118,5 @@ class Controller
         trigger_error( '指定したアクションがありません', E_USER_ERROR );
 
     }
-
 }
 ?>

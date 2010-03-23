@@ -1,5 +1,3 @@
-<div id="content">
-
 
        		<div id="rightnow">
                     <h3 class="reallynow">
@@ -102,4 +100,3 @@
 
 
               </div>
-            </div>

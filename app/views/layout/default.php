@@ -38,7 +38,11 @@
       <!-- wrapper -->
       <div id="wrapper">
 
+          <div id="content">
+
           <?php echo $this->content(); ?>
+
+          </div>
             
           <div id="sidebar">
   		<ul>

@@ -8,6 +8,7 @@ define( 'APP_CORE_PATH',         APP_PATH. 'core/' );
 define( 'APP_CONTROLLERS_PATH',  APP_PATH. 'controllers/' );
 define( 'APP_MODELS_PATH',       APP_PATH. 'models/' );
 define( 'APP_VIEWS_PATH',        APP_PATH. 'views/' );
+define( 'APP_LIBS_PATH',         APP_PATH. 'libs/' );
 define( 'APP_VIEWS_LAYOUT_PATH', APP_VIEWS_PATH. 'layout/' );
 define( 'APP_DB_PATH',           APP_CORE_PATH. 'db/' );
 
@@ -21,6 +22,8 @@ $_APP_REQUIRES = array(
      APP_CORE_PATH        . 'controller_manager.php',
      APP_CORE_PATH        . 'view_manager.php',
      APP_CORE_PATH        . 'model.php',
+     APP_CORE_PATH        . 'util.php',
+     APP_LIBS_PATH        . 'app_util.php',
      APP_CONTROLLERS_PATH . 'app_controller.php',
 );
 
