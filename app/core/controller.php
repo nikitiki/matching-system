@@ -29,6 +29,31 @@ class Controller
 
         if( !empty( $this->use ) ) {
 
+            foreach( $this->use as $model ) {
+
+                // 先頭だけ大文字に
+                $model_class = ucfirst( $model );
+
+                // モデルのパス
+                $model_path = APP_MODELS_PATH . $model . 'php';
+
+                // モデルファイル存在チェック
+                if( !file_exists( $model_path ) ) {
+                    // @TODO 
+                    trigger_error( '指定したモデルがありません', E_USER_NOTICE);
+                    continue;
+                } 
+
+                // モデル読み込み
+                include_once( $model_path );
+
+                // モデルインスタンス生成
+                $class = new $model_class();
+
+                if( empty( $this->{$model} ) ) $this->{$model} = &$class;
+
+            }
+
         }
 
     }

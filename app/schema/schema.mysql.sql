@@ -1,0 +1,51 @@
+CREATE TABLE user
+(
+    id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(128) NOT NULL,
+    password VARCHAR(128) NOT NULL,
+    salt VARCHAR(128) NOT NULL,
+    email VARCHAR(128) NOT NULL,
+    profile TEXT,
+    auth_level INTEGER NOT NULL DEFAULT 0
+);
+
+CREATE TABLE team
+(
+    id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    login_id VARCHAR(16) NOT NULL,
+    password VARCHAR(128) NOT NULL,
+    salt VARCHAR(128) NOT NULL,
+    name VARCHAR(128) NOT NULL,
+    tel  VARCHAR(128),
+    email VARCHAR(128),
+    prefecture_id INTEGER NOT NULL,
+    address TEXT,
+    strength INTEGER DEFAULT 0,
+    profile TEXT
+);
+
+CREATE TABLE collect
+(
+    id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    team_id INTEGER NOT NULL,
+    day DATE NOT NULL,
+    time TIME,
+    locate TEXT NOT NULL,
+    note TEXT,
+    apply_flg INTEGER NOT NULL DEFAULT 0
+);
+
+CREATE TABLE applicant
+(
+    id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    collect_id INTEGER NOT NULL,
+    team_id INTEGER NOT NULL,
+    note TEXT
+);
+
+
+CREATE TABLE prefecture
+(
+    id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(32) NOT NULL
+);
