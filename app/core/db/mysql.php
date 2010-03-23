@@ -1,6 +1,6 @@
 <?php
 /**
- * MySQLÚ‘±ƒNƒ‰ƒX
+ * MySQLæŽ¥ç¶šã‚¯ãƒ©ã‚¹
  */
 class Mysql {
 
@@ -12,7 +12,7 @@ class Mysql {
 
         $host = $config['host'];
 
-        // ƒ|[ƒgÝ’è‚ª‚ ‚ê‚ÎƒZƒbƒg
+        // ãƒãƒ¼ãƒˆè¨­å®šãŒã‚ã‚Œã°ã‚»ãƒƒãƒˆ
         if( !empty( $config['port'] ) ) {
 
             $host .= ':' . $config['port'];
@@ -41,7 +41,7 @@ class Mysql {
 
             foreach( $bind_params as $key => $bind_param ) {
 
-                // ƒoƒCƒ“ƒh•ÏŠ·
+                // ãƒã‚¤ãƒ³ãƒ‰å¤‰æ›
                 $query = str_replace( 
                     $key
                     , mysql_escape_string( $bind_param )
@@ -50,14 +50,14 @@ class Mysql {
             }
         }
 
-        // ƒNƒGƒŠŽÀs
+        // ã‚¯ã‚¨ãƒªå®Ÿè¡Œ
         $res = mysql_query( $query, $connect );
 
-        // ƒNƒGƒŠ³í‚É“®ì‚µ‚½‚©ƒ`ƒFƒbƒN
+        // ã‚¯ã‚¨ãƒªæ­£å¸¸ã«å‹•ä½œã—ãŸã‹ãƒã‚§ãƒƒã‚¯
         if( !$res ) {
 
             // @TODO
-            trigger_error( 'ƒNƒGƒŠ‚ª³í‚ÉŽÀs‚³‚ê‚Ü‚¹‚ñ‚Å‚µ‚½', E_USER_ERROR );
+            trigger_error( 'ã‚¯ã‚¨ãƒªãŒæ­£å¸¸ã«å®Ÿè¡Œã•ã‚Œã¾ã›ã‚“ã§ã—ãŸ', E_USER_ERROR );
         }
 
         return $res;
@@ -70,10 +70,10 @@ class Mysql {
      */
     public function find( $query, &$connect, $bind_params = array() ) {
 
-        // Œ‹‰ÊŠi”[
+        // çµæžœæ ¼ç´
         $ret = array();
 
-        // ³í‚ÉŽÀs‚Å‚«‚½‚©ƒ`ƒFƒbƒN
+        // æ­£å¸¸ã«å®Ÿè¡Œã§ããŸã‹ãƒã‚§ãƒƒã‚¯
         if( $res = $this->query( $query, $connect, $bind_params ) ) {
 
             while( $row = mysql_fetch_assoc( $res ) ) {

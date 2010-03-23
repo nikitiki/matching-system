@@ -1,7 +1,7 @@
 <?php
 
 /**
- * DB$B@\B3Dj5A(J
+ * DB接続定義
  *
  */
 define( 'DB_HOST_TT', 'localhost' );
@@ -13,7 +13,7 @@ define( 'DB_PORT_TT', '' );
 
 
 /**
- * $B%5%$%H8GM-L>;l(J
+ * サイト固有名詞
  */
 define( 'SITE_NAME_TT', 'MATCHING SYSTEM' );
 
