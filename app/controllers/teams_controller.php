@@ -28,6 +28,9 @@ class TeamsController extends AppController {
      */
     public function add() {
 
+        // テンプレート設定
+        $this->setTemplate( 'nologin' );
+
     }
     // }}}
     
@@ -37,6 +40,9 @@ class TeamsController extends AppController {
      * チーム登録
      */
     public function create() {
+
+        // テンプレート設定
+        $this->setTemplate( 'nologin' );
 
         // 不要文字削除
         $this->request->data['team']['login_id'] = trim( preg_replace('/[\x00\x1f:<>&%,;]+/', '', $this->request->data['team']['login_id'] ) );

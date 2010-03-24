@@ -7,8 +7,8 @@
                         <input name="team/login_id" id="login_id" type="text" tabindex="1" />
 
                         <br />
-                        <label for="team_name">チーム名: </label>
-                        <input name="team/team_name" id="team_name" type="text" 
+                        <label for="name">チーム名: </label>
+                        <input name="team/name" id="name" type="text" 
                         tabindex="2" />
                         <br />
                         <label for="email">Email : </label>
