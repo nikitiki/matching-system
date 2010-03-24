@@ -77,8 +77,27 @@ class Controller_Manager
         $controller_class = ucfirst( $controller ) . 'Controller';
 
         // インスタンス生成
-        $this->con_obj = new $controller_class( $this->request_obj );
-        
+        $this->con_obj = new $controller_class( $this );
+
+        // 指定アクション名取得
+        $action = $this->request_obj->getAction();
+
+        // アクション名存在チェック
+        if( empty( $action ) ) {
+
+            $action = 'index';
+
+        } elseif( !is_callable( array( &$this->con_obj, $action ) ) ) {
+
+            $action = 'error';
+
+        }
+
+        // 実行アクション名格納
+        $this->action_name = $action;
+
+        // 初期処理実行
+        $this->con_obj->startup();
     }
 
 
@@ -95,22 +114,8 @@ class Controller_Manager
      */
     public function execute() {
 
-        // 指定アクション名取得
-        $action = $this->request_obj->getAction();
-
-        // 
-        if( empty( $action ) ) {
-
-            $action = 'index';
-
-        } elseif( !is_callable( array( &$this->con_obj, $action ) ) ) {
-
-            $action = 'error';
-
-        }
-
         // 実行アクション名格納
-        $this->action_name = $action;
+        $action =  $this->action_name;
 
         // 指定アクション実行
         $this->con_obj->$action();
@@ -129,10 +134,20 @@ class Controller_Manager
      * 実行コントローラーオブジェクト取得
      *
      * @access public
-     * @return string
+     * @return object
      */
     public function getCon_obj() {
         return $this->con_obj;
+    }
+
+    /**
+     * リクエストオブジェクト取得
+     *
+     * @access public
+     * @return object
+     */
+    public function getRequest_obj() {
+        return $this->request_obj;
     }
 
 

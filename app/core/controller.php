@@ -2,6 +2,8 @@
 class Controller
 {
 
+    protected $con_mng;
+
     protected $request;
 
     protected $template;
@@ -10,14 +12,24 @@ class Controller
 
     protected $util;
 
+    public $controller;
+
+    public $action;
+
     // {{{
     /**
      * コンストラクタ
      */
-    public function __construct( &$request ){ 
+    public function __construct( &$con_mng ){ 
+
+        // コントローラーマネージャー格納
+        $this->con_mng = $con_mng;
 
         // リクエストオブジェクト格納
-        $this->request = $request;
+        $this->request = $con_mng->getRequest_obj();
+
+        // 実行コントローラー格納
+        $this->controller = $con_mng->getControllerName();
 
         // モデル初期化
         $this->addModel();
@@ -30,6 +42,15 @@ class Controller
     }
     // }}}
 
+    // {{{ init
+    /**
+     * アクション実行前初期処理
+     */
+    public function startup() {
+
+        // 実行アクション名格納
+        $this->setAction( $this->con_mng->getActionName() );
+    }
 
     // {{{ addMoel
     /**
@@ -81,17 +102,47 @@ class Controller
     }
     // }}}
 
+
+    // {{{ render
+    /**
+     * 処理委譲
+     */
+    protected function render( $url = null ) {
+
+        // 
+        if( empty( $url ) || 
+            ( isset( $url['action'] ) && empty( $url['action'] ) ) 
+        ) {
+            return;
+        }
+
+        // コントローラーがセットされていたら設定
+        if( isset( $url['controller'] ) && !empty( $url['controller'] ) ) {
+
+            $this->setController( $url['controller'] );
+
+        }
+
+        // アクション設定
+        $this->setAction( $url['action'] );
+
+    }
+    // }}}
+
+
+    // {{{
     /**
      * アクション実行前処理
      */
     public function beforeFilter(){}
+    // }}}
 
-
+    // {{{
     /**
      * アクション実行後処理
      */
     public function afterFilter(){}
-
+    // }}}
 
     /**
      * レイアウト用テンプレート格納
@@ -107,6 +158,35 @@ class Controller
      */
     public function getTemplate() {
         return $this->template;
+    }
+
+
+    /**
+     * 実行コントローラー名セット
+     */
+    public function setController( $controller ) {
+        $this->controller = $controller;
+    }
+
+    /**
+     * 実行コントローラー名取得
+     */
+    public function getController() {
+        return $this->controller;
+    }
+
+    /**
+     * 実行アクション名セット
+     */
+    public function setAction( $action ) {
+        $this->action = $action;
+    }
+
+    /**
+     * 実行アクション名取得
+     */
+    public function getAction() {
+        return $this->action;
     }
 
     /**

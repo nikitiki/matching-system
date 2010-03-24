@@ -20,12 +20,12 @@ class Request
     /**
      * パラメータ格納
      */
-    private $params = array();
+    public $params = array();
 
     /**
      * モデル用パラメータ格納
      */
-    private $data = array();
+    public $data = array();
 
     /**
      * コンストラクタ
@@ -130,7 +130,7 @@ class Request
 
             if( strpos( $key, '/' ) !== FALSE ) {
 
-                list( $model, $element ) = explode( '/', $reqeust );
+                list( $model, $element ) = explode( '/', $key );
                 $this->data[$model][$element] = $request;
             }
 

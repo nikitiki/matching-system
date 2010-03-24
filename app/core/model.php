@@ -15,6 +15,12 @@ class Model
      */
     public $db;
 
+
+    /**
+     * エラーメッセージ格納
+     */
+    public $error_msg;
+
     function __construct() {
 
         if( empty( $this->con ) ) {

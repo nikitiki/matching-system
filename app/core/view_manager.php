@@ -66,10 +66,10 @@ class View_Manager
         $this->template = APP_VIEWS_LAYOUT_PATH . '/' . $template . '.php';
 
         // コントローラー名取得
-        $controller = $this->con_mng_obj->getControllerName();
+        $controller = $this->con_obj->getController();
 
         // アクション名取得 
-        $view = $this->con_mng_obj->getActionName();
+        $view = $this->con_obj->getAction();
 
         // ビューファイルパス取得
         $this->viewfile = APP_VIEWS_PATH . $controller . '/' . $view . '.php';
