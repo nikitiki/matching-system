@@ -21,7 +21,12 @@ class Model
      */
     public $error_msg;
 
-    function __construct() {
+
+    // {{{ construct
+    /**
+     * コンストラクタ
+     */
+    public function __construct() {
 
         if( empty( $this->con ) ) {
 
@@ -33,6 +38,28 @@ class Model
 
         }
     }
+    // }}}
 
+
+    // {{{
+    /**
+     * バリデーションルール定義
+     */
+    public function rules() {
+        return false;
+    }
+    // }}}
+
+
+    // {{{
+    /**
+     * バリデーション実行
+     */
+    public function validate() {
+
+
+        var_dump( $this->rules() );
+    }
+    // }}}
 }
 ?>

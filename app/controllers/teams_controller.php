@@ -50,7 +50,7 @@ class TeamsController extends AppController {
 
 
         // バリデーション実行
-//        if( !$res = $this->team->validation( $this->request->data ) ) {
+//        if( !$res = $this->team->validate( $this->request->data ) ) {
 
             // エラーメッセージ取得
 //            $error_msgs = $this->team->error_msg;
