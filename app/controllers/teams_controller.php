@@ -9,8 +9,10 @@ class TeamsController extends AppController {
     var $layout = 'default';
 
     // モデル設定
-    var $use = array( 'team' );
+    var $use = array( 'team', 'prefecture' );
 
+    // ヘルパー定義
+    var $helper = array( 'prefecture' );
 
     // {{{ index
     /**

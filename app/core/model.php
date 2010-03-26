@@ -63,7 +63,8 @@ class Model
         $validate = new Validate();
         $rules = $this->rules();
 
-        foreach( $data_array as $model ) {
+        foreach( $data_array as $model_name => $model ) {
+
             foreach( $model as $column => $data ) {
 
                 // バリデーション項目で定義されているか
@@ -97,6 +98,7 @@ class Model
             // } foreach
         }
         // } foreach
+
         return ( empty( $this->err_msg ) );
     }
     // }}}

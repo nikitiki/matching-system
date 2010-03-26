@@ -11,6 +11,7 @@ define( 'APP_VIEWS_PATH',        APP_PATH. 'views/' );
 define( 'APP_LIBS_PATH',         APP_PATH. 'libs/' );
 define( 'APP_VIEWS_LAYOUT_PATH', APP_VIEWS_PATH. 'layout/' );
 define( 'APP_DB_PATH',           APP_CORE_PATH. 'db/' );
+define( 'APP_HELPERS_PATH',      APP_VIEWS_PATH. 'helpers/' );
 
 // フレームワーク関連のファイルを読み込む
 $_APP_REQUIRES = array(
@@ -23,8 +24,10 @@ $_APP_REQUIRES = array(
      APP_CORE_PATH        . 'view_manager.php',
      APP_CORE_PATH        . 'model.php',
      APP_CORE_PATH        . 'util.php',
+     APP_CORE_PATH        . 'helper.php',
      APP_LIBS_PATH        . 'app_util.php',
      APP_LIBS_PATH        . 'validate.php',
+     APP_LIBS_PATH        . 'app_helper.php',
      APP_CONTROLLERS_PATH . 'app_controller.php',
 );
 

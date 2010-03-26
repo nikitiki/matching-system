@@ -12,6 +12,8 @@ class Controller
 
     protected $util;
 
+    public $helper;
+
     public $controller;
 
     public $action;
@@ -39,6 +41,7 @@ class Controller
 
         // ユーティリティークラス読み込み
         $this->util = new AppUtil();
+
     }
     // }}}
 
@@ -81,7 +84,7 @@ class Controller
                 // モデルインスタンス生成
                 $class = new $model_class();
 
-                if( empty( $this->{$model} ) ) $this->{$model} = &$class;
+                if( empty( $this->{$model} ) ) $this->{$model} = $class;
 
             }
 
@@ -89,6 +92,7 @@ class Controller
 
     }
     // }}}
+
 
     // {{{ setTemplateInit
     /**

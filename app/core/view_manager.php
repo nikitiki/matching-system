@@ -92,6 +92,9 @@ class View_Manager
      */
     public function dispatch() {
 
+        // ヘルパー初期化
+        $this->initHelper();
+
         // レイアウトテンプレートがセットされているか
         if( file_exists( $this->template ) ) {
 
@@ -100,6 +103,39 @@ class View_Manager
         } else {
 
             $this->content();
+
+        }
+
+    }
+    // }}}
+
+
+    // {{{ initHelper
+    /** 
+     *  定義したヘルパー生成
+     */
+    public function initHelper() {
+
+        // デフォルトヘルパーファイル取得
+        $helper_path = APP_LIBS_PATH . 'html.php';
+
+        // デフォルトヘルパー読み込み
+        include_once( $helper_path );
+
+        // デフォルトヘルパーインスタンス生成
+        $this->html = new HtmlHelper( $this->con_obj );
+
+        $this->html->startup();
+
+        foreach( $this->con_obj->helper as $helper ) {
+
+            include_once( APP_HELPERS_PATH . $helper . '.php'  );
+
+            $class_name  = ucfirst( $helper ) . 'Helper';
+
+            $this->$helper = new $class_name( $this->con_obj );
+
+            $this->$helper->startup();
 
         }
 
@@ -120,7 +156,7 @@ class View_Manager
         $variables = $this->outputFilter( $variables );
 
         // セットした名前で変数を利用
-        extract( $variables, EXTR_SKIP );
+        if( !empty( $variables ) )  extract( $variables, EXTR_SKIP );
 
         require_once( $this->viewfile );
 
@@ -141,7 +177,7 @@ class View_Manager
         $variables = $this->outputFilter( $variables );
 
         // セットした名前で変数を利用
-        extract( $variables, EXTR_SKIP );
+        if( !empty( $variables ) ) extract( $variables, EXTR_SKIP );
 
         // 指定ファイル読み込み
         require_once( $this->template );

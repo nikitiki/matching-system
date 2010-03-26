@@ -1,6 +1,6 @@
 
                <?php /* エラーメッセージ出力  */ ?>
-               <?php if( $error_msgs ) : ?>
+               <?php if( isset( $error_msgs ) && $error_msgs ) : ?>
                <div id="caution">
                     <p class="error">
                     <?php foreach( $error_msgs as $error_array ):  ?>
@@ -45,11 +45,7 @@
 
                         <legend>住所</legend>
                         <label for="pref">都道府県: </label>
-                        <select name="pref">
-
-                            <option label="1" value="1">北海道
-                            </option>
-                        </select>
+                        <?php echo $this->html->selectTag( $this->prefecture->getPrefectures() , 'pref', 6 ); ?>
 
                       </fieldset>
                       <div align="center">
