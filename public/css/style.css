@@ -288,6 +288,13 @@ thead{
 #rightnow a {
 	font-weight: bold;
 }
+
+#caution .error {
+    font-size: 12px;
+    padding: 10px;
+    font-weight: bold;
+    color:#375b91;
+}
 /*********************
 		Forms
 *********************/

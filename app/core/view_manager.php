@@ -111,7 +111,16 @@ class View_Manager
     /**
      *
      */
-    private function content() {
+    public function content() {
+
+        // コントローラーでセットした変数を取得
+        $variables = $this->request_obj->getParams();
+
+        // 無害化
+        $variables = $this->outputFilter( $variables );
+
+        // セットした名前で変数を利用
+        extract( $variables, EXTR_SKIP );
 
         require_once( $this->viewfile );
 
@@ -119,16 +128,45 @@ class View_Manager
     // }}}
 
 
-    //{{{ display_template
+    // {{{ display_template
     /**
      *
      */
-    private function display_template() {
+    public function display_template() {
 
+        // コントローラーでセットした変数を取得
+        $variables = $this->request_obj->getParams();
+
+        // 無害化
+        $variables = $this->outputFilter( $variables );
+
+        // セットした名前で変数を利用
+        extract( $variables, EXTR_SKIP );
+
+        // 指定ファイル読み込み
         require_once( $this->template );
 
     }
-     // }}}
+    // }}}
+
+    // {{{
+    /**
+     * 
+     */
+    private function outputFilter( $param ) {
+
+        if( is_array( $param ) ) {
+
+            // 配列の場合は再帰的に実行
+            return array_map( array( $this, 'outputFilter' ), $param );
+
+        } else {
+
+            // HTMLタグやJavaScriptタグを無効化する
+            return htmlspecialchars( $param, ENT_QUOTES );
+        }
+    }
+    // }}}
 
 }
 ?>

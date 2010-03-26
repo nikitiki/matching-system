@@ -14,31 +14,33 @@ class Team extends Model
         return array(
                    'login_id' => array(
                        'name'     => 'ログインID',
-                       'required' => true,
+                       'notEmpty' => true,
                        'rule'     => 'alphanumeric',
                        'min'      => 5,
                        'max'      => 16
                    ),
                    'name'     => array(
                        'name'     => 'チーム名',
-                       'required' => true,
+                       'notEmpty' => true,
                    ),
                    'email'    => array(
                        'name'     => 'Email',
-                       'required' => true,
+                       'notEmpty' => true,
                        'rule'     => 'email',
                    ),
                    'pass'     => array(
                        'name'     => 'パスワード',
-                       'required' => true,
+                       'notEmpty' => true,
                        'rule'     => 'alphanumeric',
-                       'mix'      => 1,
+                       'min'      => 1,
+                       'max'      => 64
                    ),
                    'pass-2'   => array(
                        'name'     => 'パスワード確認',
-                       'required' => true,
+                       'notEmpty' => true,
                        'rule'     => 'alphanumeric',
-                       'mix'      => 1
+                       'min'      => 1,
+                       'max'      => 5
                    ) 
                );
 

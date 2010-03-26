@@ -1,3 +1,19 @@
+
+               <?php /* エラーメッセージ出力  */ ?>
+               <?php if( $error_msgs ) : ?>
+               <div id="caution">
+                    <p class="error">
+                    <?php foreach( $error_msgs as $error_array ):  ?>
+                        <?php foreach( $error_array as $error_msg ): ?>
+                            <?php echo $error_msg;  ?>
+                            <br />
+                        <?php endforeach; ?>
+                    <?php endforeach; ?>
+                    </p>
+               </div>
+               <?php endif; ?>
+               <?php /* /エラーメッセージ  */ ?>
+
                 <div id="box">
                     <h3 id="adduser">チーム登録</h3>
                     <form id="form" action="/teams/create" method="post">
