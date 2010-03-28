@@ -86,6 +86,8 @@ class Controller
 
                 if( empty( $this->{$model} ) ) $this->{$model} = $class;
 
+                // テーブル名セット
+                $this->$model->table_name = $model;
             }
 
         }

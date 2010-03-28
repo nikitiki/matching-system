@@ -20,32 +20,32 @@
                       <fieldset id="personal">
                         <legend>チーム情報</legend>
                         <label for="login_id">ログインID: </label> 
-                        <input name="team/login_id" id="login_id" type="text" tabindex="1" />
+                        <input name="team/login_id" id="login_id" type="text" tabindex="1" value="<?php echo $data['login_id']; ?>" />
 
                         <br />
                         <label for="name">チーム名: </label>
                         <input name="team/name" id="name" type="text" 
-                        tabindex="2" />
+                        tabindex="2" value="<?php echo $data['name']  ?>" />
                         <br />
                         <label for="email">Email : </label>
                         <input name="team/email" id="email" type="text" 
-                        tabindex="2" />
+                        tabindex="2" value="<?php echo $data['email']; ?>" />
                         <br />
 
-                        <label for="pass">パスワード: </label>
-                        <input name="team/pass" id="pass" type="password" 
-                        tabindex="2" />
+                        <label for="password">パスワード: </label>
+                        <input name="team/password" id="password" type="password" 
+                        tabindex="2" value="<?php echo $data['password']; ?>" />
                         <br />
-                        <label for="pass-2">パスワード確認: </label>
-                        <input name="team/pass-2" id="pass-2" type="password" 
-                        tabindex="2" />
+                        <label for="password-2">パスワード確認: </label>
+                        <input name="team/password-2" id="password-2" type="password" 
+                        tabindex="2" value="<?php echo $data['password-2'] ?>" />
                         <br />
                       </fieldset>
                       <fieldset id="address">
 
                         <legend>住所</legend>
-                        <label for="pref">都道府県: </label>
-                        <?php echo $this->html->selectTag( $this->prefecture->getPrefectures() , 'pref', 6 ); ?>
+                        <label for="prefcture_id">都道府県: </label>
+                        <?php echo $this->html->selectTag( $this->prefecture->getPrefectures() , 'team/prefecture_id', $data['prefecture_id'] ); ?>
 
                       </fieldset>
                       <div align="center">

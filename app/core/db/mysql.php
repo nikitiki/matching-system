@@ -50,6 +50,8 @@ class Mysql {
             }
         }
 
+var_dump( $query );
+
         // クエリ実行
         $res = mysql_query( $query, $connect );
 
@@ -63,6 +65,7 @@ class Mysql {
         return $res;
     }
     // }}}
+
 
     // {{{ find
     /**
@@ -84,5 +87,86 @@ class Mysql {
         return $ret;
 
     }
+    // }}}
+
+
+    // {{{ insert
+    /**
+     * insert
+     */
+    public function insert( $data = array(), &$connect, $table ) {
+
+        $count = count( $data );
+        $query = "INSERT $table (";
+        $i = 0;
+
+        // フィールド部分を組み立て
+        foreach( $data as $key => $value ) {
+
+            // フィールドの形に整形
+            $query .= $this->field( $key );
+
+            // フィールドをカンマでつなぐ
+            if( $i < $count -1 ) {
+                $query .= ",";
+            }
+            $i++;
+        }
+
+        // バリュー部分を組み立て
+        $query .= ") VALUES(";
+
+        $i = 0;
+
+        foreach( $data as $key => $value ) {
+
+            // エスケープ
+            $query .= $this->value( $value );
+
+            // バリューをカンマでつなぐ
+            if( $i < $count -1 ) {
+                $query .= ",";
+            }
+            $i++;
+        }
+        $query .= ")";
+
+        // クエリ終了
+        return $this->query( $query, $connect );
+
+    }
+    // }}}
+
+
+    // {{{ field
+    /**
+     * フィールドの型に整形
+     */
+    public function field( $field ) {
+        return "`$field`";
+    }
+    // }}}
+
+
+    // {{{ value
+    /**
+     * エスケープ
+     */
+    public function value( $value ) {
+        if( $value === null ) return 'NULL';
+        $value = mysql_escape_string( $value );
+        return "'$value'";
+    }
+    // }}}
+
+
+    // {{{ getLastInsertId
+    /**
+     * 
+     */
+    public function getLastInsertId( &$con ) {
+        return mysql_insert_id( $con );
+    }
+
 }
 ?>

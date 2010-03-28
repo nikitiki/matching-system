@@ -15,6 +15,10 @@ class Model
      */
     public $db;
 
+    /**
+     * テーブル名
+     */
+    public $table_name;
 
     /**
      * エラーメッセージ格納
@@ -65,7 +69,7 @@ class Model
 
         foreach( $data_array as $model_name => $model ) {
 
-            foreach( $model as $column => $data ) {
+            foreach( $model as $column => $value ) {
 
                 // バリデーション項目で定義されているか
                 if( isset( $rules[$column] ) ) {
@@ -74,22 +78,41 @@ class Model
 
                         // バリデート内で定義されているか
                         if( is_callable( array( $validate, $rule_key ) ) ) {
-                            if( !$bool = $validate->$rule_key( $data, $rule_value ) ) {
+                            if( !$bool = $validate->$rule_key( $value, $rule_value ) ) {
                                 // エラーメッセージ取得
                                 $this->err_msg[$column][] = $validate->getErrMsg( $rule_key, $rules[$column]['name'] );
                             }
                         }
 
                         // ruleという項目が定義されているか
-                        if( isset( $rule_key['rule'] ) 
-                            && $rule_key == 'rule' 
-                            && is_callable( array( $validate, $rule_value ) ) ) {
-                            if ( !$bool = $validate->$rule_value( $data ) ) {
+                        if( isset( $rule_key['rule'] ) && $rule_key == 'rule' ) {
 
-                                // エラーメッセージ取得
-                                $this->err_msg[$column][] = $validate->getErrMsg( $rule_value, $rules[$column]['name'] );
+                            // ルールが複数定義されているか
+                            if( $is_conma = strpos( $rule_value, ',' ) ) { 
+                            
+                                // ,で分かれているルールを配列に直す
+                                $rule_arr = explode( ',', $rule_value );
+                            } else {
+                                $rule_arr = array( $rule_value );
                             }
+
+                            // 定義されている配列分ループ
+                            foreach( $rule_arr as $rule ) {
+
+                                // バリデーションクラスに指定したルールが定義されているか
+                                if ( is_callable( array( $validate, $rule ) ) ) {
+                                    if ( !$bool = $validate->$rule( $value ) ) {
+
+                                        // エラーメッセージ取得
+                                        $this->err_msg[$column][] = $validate->getErrMsg( $rule, $rules[$column]['name'] );
+                                    }
+                                    // } if
+                                }
+                                // } if
+                            }
+                            // } foreach
                         }
+                        // } if
                     }
                     // } foreach
                 }
@@ -98,9 +121,86 @@ class Model
             // } foreach
         }
         // } foreach
-
         return ( empty( $this->err_msg ) );
     }
     // }}}
+
+
+    // {{{ describe
+    /**
+     * describe
+     */
+    public function describe() {
+
+        // クエリ生成
+        $query = "DESCRIBE $this->table_name";
+
+        // 取得
+        $res = $this->db->find( $query, $this->con );
+
+        return $res;
+
+    }
+    // }}}
+
+    // {{{ getColumn
+    /**
+     * テーブルのカラム名取得
+     */
+    public function getColumn() {
+
+        $res = $this->describe();
+
+        $ret = array();
+        foreach( $res as $v ) {
+
+            // フィールド名取得
+            $ret[ $v['Field'] ] = null;
+        }
+
+        return $ret;
+    }
+    // }}}
+
+    // {{{ find
+    /**
+     *
+     */
+    public function find() {
+    }
+    // }}}
+
+    // {{{ insert
+    /**
+     * @return mixed sucess id / fail false
+     */
+    public function insert( $data ) {
+
+        $formated_data = array();
+
+        // カラム名取得
+        $columns = $this->getColumn();
+
+        // $columns: ['カラム名'] => null
+        foreach( $data[$this->table_name] as $field => $value ) {
+
+            // テーブルにあるカラムだけを抽出
+            if( array_key_exists( $field, $columns ) ) {
+                $formated_data[$field] = $value;
+            }
+        }
+
+        // インサート処理
+        $this->db->insert( $formated_data, $this->con, $this->table_name );
+
+        // インサートID取得
+        if( !$res = $this->db->getLastInsertId( $this->con ) ) {
+            $res = false;
+        }
+
+        return $res;
+    }
+    // }}}
+
 }
 ?>

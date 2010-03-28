@@ -33,6 +33,9 @@ class TeamsController extends AppController {
         // テンプレート設定
         $this->setTemplate( 'nologin' );
 
+        // カラム名取得 →テンプレート変数初期化
+        $this->request->set( 'data', $this->team->schema() );
+
     }
     // }}}
     
@@ -70,10 +73,16 @@ class TeamsController extends AppController {
             // 入力画面に戻る
             $this->render( array( 'action' =>  'add' ) );
 
+            // 入力値をセット
+            $this->request->set( 'data', $this->request->data['team'] );
+
         } else {
 
-        // 正常に処理終了したらリダイレクト
-//        $this->util->redirect( '/teams/index' );
+            // 保存処理
+            $this->team->insert( $this->request->data );
+
+            // 正常に処理終了したらリダイレクト
+            $this->util->redirect( '/teams/index' );
 
         }
     }
