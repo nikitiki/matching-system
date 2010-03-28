@@ -50,8 +50,6 @@ class Mysql {
             }
         }
 
-var_dump( $query );
-
         // クエリ実行
         $res = mysql_query( $query, $connect );
 

@@ -20,6 +20,11 @@ class TeamsController extends AppController {
      */
     public function index() {
 
+        // チーム一覧取得
+        $teams =  $this->team->find();
+
+var_dump( $teams );
+
     }
     // }}}
 
@@ -82,7 +87,7 @@ class TeamsController extends AppController {
             $this->team->insert( $this->request->data );
 
             // 正常に処理終了したらリダイレクト
-            $this->util->redirect( '/teams/index' );
+            $this->util->redirect( '/root/index' );
 
         }
     }

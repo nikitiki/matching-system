@@ -166,7 +166,19 @@ class Model
     /**
      *
      */
-    public function find() {
+    public function find( $bind_params = null, $condition = null ) {
+
+        // クエリ生成
+        $query = "SELECT * FROM $this->table_name ";
+
+        // 条件句があれば追加
+        if( !is_null( $condition ) ) {
+            $query .= $condition;
+        }
+
+        $res = $this->db->find( $query, $this->con, $bind_params );
+
+        return $res;
     }
     // }}}
 
