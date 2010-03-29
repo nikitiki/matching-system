@@ -12,8 +12,6 @@ class RootController extends AppController
 
         $this->setTemplate( 'default' );
 
-        $d = $this->user->selectPre();
-
     }
     // }}}
 

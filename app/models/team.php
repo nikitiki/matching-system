@@ -76,6 +76,31 @@ class Team extends Model
     }
     // }}}
 
+    // {{{
+    /**
+     *
+     */
+    public function authenticate( $data ) {
+
+        $login_id = $data[$this->table_name]['login_id'];
+        $password = $data[$this->table_name]['password'];
+
+        // ログインIDで存在しているか
+        if( !$res =  $this->find( array( ':login_id' => $login_id ), 'WHERE login_id = :login_id' ) ) {
+            $this->err_msg['login_id'][] = ( 'ログインIDまたはパスワードが間違っています' );
+            return false;
+        }
+
+        $user = $res[0];
+        $password = crypt( $password, $user['salt'] );
+
+        if( $user['password'] == $password ) {
+            return true;
+        }
+        $this->err_msg['login_id'][] = ( 'ログインIDまたはパスワードが間違っています' );
+        return false;
+    }
+
 
     // {{{ insert
     /**

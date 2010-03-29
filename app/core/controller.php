@@ -18,6 +18,10 @@ class Controller
 
     public $action = null;
 
+    public $app_comp = array();
+
+    public $comp = array();
+
     // {{{
     /**
      * コンストラクタ
@@ -33,14 +37,17 @@ class Controller
         // 実行コントローラー格納
         $this->controller = $con_mng->getControllerName();
 
-        // モデル初期化
+        // モデル初期化・読み込み
         $this->addModel();
 
-        // テンプレート初期化
+        // テンプレート初期化・読み込み
         $this->setTemplateInit();
 
-        // ユーティリティークラス読み込み
+        // ユーティリティークラス初期化・読み込み
         $this->util = new AppUtil();
+
+        // コンポーネント初期化・読み込み
+        $this->addComp();
 
     }
     // }}}
@@ -92,6 +99,71 @@ class Controller
 
         }
 
+    }
+    // }}}
+
+    // {{{ addComp
+    /**
+     * コンポーネント初期化・読み込み
+     */
+    private function addComp() {
+
+        if( !empty( $this->app_comp ) ) {
+
+            foreach( $this->app_comp as $app_comp ) {
+
+                // クラス名
+                $comp_class = ucfirst( $app_comp );
+
+                // コンポーネントのパス
+                $comp_path = APP_LIBS_PATH . $app_comp . '.php';
+
+                if( !file_exists( $comp_path ) ) {
+                    // @TODO
+                    trigger_error( '指定したコンポーネントがありません', E_USER_NOTICE );
+                    continue;
+                }
+
+                // コンポーネント読み込み
+                include_once( $comp_path );
+
+                // コンポーネントインスタンス生成
+                $class = new $comp_class;
+
+                if( empty( $this->{$app_comp} ) ) $this->{$app_comp} = $class;
+
+                $this->{$app_comp}->startup();
+            }
+        }
+
+        if( !empty( $this->comp ) ) {
+
+            foreach( $this->comp as $comp ) {
+
+                // クラス名
+                $comp_class = ucfirst( $comp );
+
+                // コンポーネントのパス
+                $comp_path = APP_LIBS_PATH . $comp . '.php';
+
+                if( !file_exists( $comp_path ) ) {
+                    // @TODO
+                    trigger_error( '指定したコンポーネントがありません', E_USER_NOTICE );
+                    continue;
+                }
+
+                // コンポーネント読み込み
+                include_once( $comp_path );
+
+                // コンポーネントインスタンス生成
+                $class = new $comp_class;
+
+                if( empty( $this->{$comp} ) ) $this->{$comp} = $class;
+
+                $this->{$comp}->statup();
+
+            }
+        }
     }
     // }}}
 

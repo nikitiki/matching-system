@@ -127,5 +127,55 @@ class TeamsController extends AppController {
         $this->render( array( 'action' => 'verifyError' ) );
     }
     // }}}
+
+
+    //{{{ login
+    /**
+     * ログイン画面
+     */
+    public function login() {
+
+        // GETで
+        if( !isset( $this->request->data['team'] ) ) {
+
+            $this->request->set( 'data', $this->team->schema() );
+
+        // POSTで
+        } else {
+
+            // オートログインチェック
+            if( false ) {
+
+            // オートログインでOKならクッキーのタイムを更新
+
+            // ログインチェック
+            } else {
+
+                // ログインIDとパスワードでDB問い合わせ
+                if( $res =  $this->team->authenticate( $this->request->data ) ) {
+
+                    // セッション情報にユーザーID格納
+
+                    // リダイレクト処理
+                    $this->util->redirect( '/root/index' );
+
+                }
+
+                // ログイン失敗文言フラッシュセット
+                // エラーメッセージ取得
+                $error_msgs = $this->team->err_msg;
+
+                // エラーメッセージセット
+                $this->request->set( 'error_msgs', $error_msgs );
+
+
+                $this->request->set( 'data', $this->request->data['team'] );
+
+            }
+        }
+    }
+    // }}}
+
+
 }
 ?>

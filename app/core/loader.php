@@ -28,6 +28,7 @@ $_APP_REQUIRES = array(
      APP_LIBS_PATH        . 'app_util.php',
      APP_LIBS_PATH        . 'validate.php',
      APP_LIBS_PATH        . 'app_helper.php',
+     APP_LIBS_PATH        . 'session.php',
      APP_CONTROLLERS_PATH . 'app_controller.php',
 );
 
