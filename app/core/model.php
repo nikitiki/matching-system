@@ -190,17 +190,8 @@ class Model
 
         $formated_data = array();
 
-        // カラム名取得
-        $columns = $this->getColumn();
-
-        // $columns: ['カラム名'] => null
-        foreach( $data[$this->table_name] as $field => $value ) {
-
-            // テーブルにあるカラムだけを抽出
-            if( array_key_exists( $field, $columns ) ) {
-                $formated_data[$field] = $value;
-            }
-        }
+        // テーブルに存在するカラムだけを抜き出す
+        $formated_data = $this->getLogicColumn( $data );
 
         // インサート処理
         $this->db->insert( $formated_data, $this->con, $this->table_name );
@@ -211,6 +202,50 @@ class Model
         }
 
         return $res;
+    }
+    // }}}
+
+    // {{{ update
+    /**
+     * 
+     */
+    public function update( $data, $cond, $bind_params ) {
+
+        $formated_data = array();
+
+        // テーブルに存在するカラムだけを抜き出
+        $formated_data = $this->getLogicColumn( $data );
+
+        // アップデート処理
+        $res = $this->db->update( $formated_data, $this->con, $this->table_name, $cond, $bind_params );
+
+        // エラーチェック
+        if( !$res ) {
+            $res = false;
+        }
+        return $res;
+    }
+    // }}}
+
+
+    // {{{ getLogicColumn
+    /**
+     *
+     */
+    public function getLogicColumn( $data ) {
+
+        // カラム名取得
+        $columns = $this->getColumn();
+
+        // $columns: ['カラム名'] => null
+        foreach( $data[$this->table_name] as $field => $value ) { 
+
+            // テーブルにあるカラムだけを抽出
+            if( array_key_exists( $field, $columns ) ) { 
+                $formated_data[$field] = $value;
+            }   
+        }
+        return $formated_data;
     }
     // }}}
 

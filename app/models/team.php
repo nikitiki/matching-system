@@ -102,6 +102,21 @@ class Team extends Model
     /**
      *
      */
+    public function update( $data, $cond = null, $bind_params = null ) {
+
+        $cond = 'WHERE id = :id';
+        $bind_params = array( ':id' => $data[$this->table_name]['id'] );
+
+        $res = parent::update( $data, $cond, $bind_params );
+
+        return $res;
+    }
+    // }}}
+
+    // {{{
+    /**
+     *
+     */
     public function sendVerificationEmail( $id = null, $url ) {
 
         if( is_null( $id ) || empty( $id ) ) {
@@ -127,7 +142,7 @@ class Team extends Model
         $subject = mb_encode_mimeheader( $subject, 'ISO-2022-JP' );
 
         // 登録完了URL
-        $verify_url = $url . "/team/verifyAccount?code=$code&l=$login_id_hash";
+        $verify_url = $url . "/teams/verifyAccount/?code=$code&l=$login_id_hash";
 
         // ヘッダー設定
         $headers = <<<MESSAGE
@@ -142,7 +157,7 @@ MESSAGE;
 【none name】仮登録のお知らせ
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-この度は、none name (http://www.tweet-mail.jp/) に
+この度は、none name ($url) に
 ご登録いただきまして、ありがとうございます。
 
 下記のURLをクリックすることでツイートメールへの登録が完了いたします。

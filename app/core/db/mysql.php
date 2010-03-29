@@ -135,6 +135,47 @@ class Mysql {
     }
     // }}}
 
+    // {{{
+    /**
+     *
+     */
+    public function update( $data, &$connect, $table_name, $cond = null, $bind_params = null ) {
+
+        $count = count($data);
+        $query = "UPDATE $table_name SET ";
+        $i = 0;
+
+        // 
+        foreach( $data as $key => $value ) {
+
+            // アップデート文の文法に整形
+            $query .= $this->createCond( $key, $value );
+
+            // カンマでつなぐ
+            if( $i < $count -1 ) {
+                $query .= ",";
+            }
+            $i++;
+        }
+
+        if( isset( $cond ) && !empty( $cond ) ) {
+            $query .= $cond;
+            $bind_params = $bind_params;
+        }
+
+        return $this->query( $query, $connect, $bind_params );
+    }
+    // }}}
+
+
+    // {{{
+    /**
+     *
+     */
+    public function createCond( $field, $value ) {
+        return $this->field( $field ) . '=' . $this->value( $value );
+    }
+    // }}}
 
     // {{{ field
     /**

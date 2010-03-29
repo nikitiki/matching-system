@@ -21,8 +21,7 @@ class TeamsController extends AppController {
     public function index() {
 
         // チーム一覧取得
-        $teams =  $this->team->find();
-
+        $this->request->set( 'teams', $this->team->find() );
     }
     // }}}
 
@@ -85,12 +84,47 @@ class TeamsController extends AppController {
             $id = $this->team->insert( $this->request->data );
 
             // メール尊信処理
-            $_ = $this->team->sendVerificationEmail( $id, $this->util->getHostInfo() );
+            if( !$res = $this->team->sendVerificationEmail( $id, $this->util->getHostInfo() ) ) {
+                trigger_error( 'メール送信失敗しました', E_USER_ERROR );
+            } 
 
             // 正常に処理終了したらリダイレクト
             $this->util->redirect( '/root/index' );
 
         }
+    }
+    // }}}
+
+    // {{{ verifiAccount
+    /**
+     *
+     */
+    public function verifyAccount() {
+
+        // コードとログインIDのハッシュを取得
+        $code = $this->request->getParam( 'code' );
+        $login_id_hash = $this->request->getParam( 'l' );
+
+        // ユーザが存在するか確認
+        if( $user = $this->team->find( 
+            array( ':code' => $code ), 'WHERE code = :code' ) ) {
+
+            $user['team'] = $user[0];
+            $user_login_id_hash = MD5( $user['team']['login_id'] );
+
+            // アクティベートされていないか
+            if( $login_id_hash == $user_login_id_hash 
+               && $user['team']['active_flg'] == false ) {
+
+                // アクティベートする
+                $this->team->update( $user );
+
+                // アクティベート成功画面に遷移
+                return;
+            } 
+        }
+        // エラー画面に遷移
+        $this->render( array( 'action' => 'verifyError' ) );
     }
     // }}}
 }
