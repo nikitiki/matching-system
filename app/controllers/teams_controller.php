@@ -23,8 +23,6 @@ class TeamsController extends AppController {
         // ƒ`[ƒ€ˆê——æ“¾
         $teams =  $this->team->find();
 
-var_dump( $teams );
-
     }
     // }}}
 

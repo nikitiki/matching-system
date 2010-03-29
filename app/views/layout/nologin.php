@@ -36,7 +36,7 @@
       <!-- wrapper -->
       <div id="wrapper">
 
-          <div id="nologin_content">
+          <div id="noside_content">
 
           <?php echo $this->content(); ?>
 
