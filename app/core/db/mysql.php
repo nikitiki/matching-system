@@ -44,7 +44,7 @@ class Mysql {
                 // バインド変換
                 $query = str_replace( 
                     $key
-                    , mysql_escape_string( $bind_param )
+                    , $this->value( $bind_param )
                     , $query
                     );
             }
@@ -165,6 +165,7 @@ class Mysql {
     public function getLastInsertId( &$con ) {
         return mysql_insert_id( $con );
     }
+    // }}}
 
 }
 ?>

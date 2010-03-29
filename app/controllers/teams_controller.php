@@ -84,7 +84,10 @@ var_dump( $teams );
         } else {
 
             // 保存処理
-            $this->team->insert( $this->request->data );
+            $id = $this->team->insert( $this->request->data );
+
+            // メール尊信処理
+            $_ = $this->team->sendVerificationEmail( $id, $this->util->getHostInfo() );
 
             // 正常に処理終了したらリダイレクト
             $this->util->redirect( '/root/index' );

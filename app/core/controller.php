@@ -12,11 +12,11 @@ class Controller
 
     protected $util;
 
-    public $helper;
+    public $helper = array();
 
-    public $controller;
+    public $controller = null;
 
-    public $action;
+    public $action = null;
 
     // {{{
     /**

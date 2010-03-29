@@ -21,7 +21,9 @@ CREATE TABLE team
     prefecture_id INTEGER NOT NULL,
     address TEXT,
     strength INTEGER DEFAULT 0,
-    profile TEXT
+    profile TEXT,
+    active_flg BOOL DEFAULT 0,
+    code VARCHAR(128)
 );
 
 CREATE TABLE collect
