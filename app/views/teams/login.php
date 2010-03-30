@@ -26,6 +26,18 @@
                         <input name="team/password" id="password" type="password" 
                         tabindex="2" value="<?php echo $data['password']; ?>" />
 
+                        <br />
+                        <label for="remember_me">次回から自動的にログイン:</label>
+                        <?php echo $this->html->checkbox(
+                                array(
+                                    'name' => 'remember_me',
+                                    'id'   => 'remember_me',
+                                    'tablindex' => '3',
+                                    'value' => '1'
+                                ),
+                                isset( $remember_me )
+                            );
+                        ?>
                       </fieldset>
                       <input id="button1" type="submit" value="ログイン" /> 
                     </form>

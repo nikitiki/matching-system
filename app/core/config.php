@@ -17,4 +17,10 @@ define( 'DB_PORT_TT', '' );
  */
 define( 'SITE_NAME_TT', 'MATCHING SYSTEM' );
 
+
+/**
+ * クッキー関連
+ */
+define( 'AUTO_LOGIN_EXPIRY', 60 * 60 * 24 * 7 );
+
 ?>

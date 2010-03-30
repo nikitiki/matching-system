@@ -135,6 +135,13 @@ class TeamsController extends AppController {
      */
     public function login() {
 
+        // オートログインチェック
+        if( false ) {
+
+            // トップ画面へリダイレクト
+            $this->util->redirect( '/' );
+        }
+
         // GETで
         if( !isset( $this->request->data['team'] ) ) {
 
@@ -143,39 +150,63 @@ class TeamsController extends AppController {
         // POSTで
         } else {
 
-            // オートログインチェック
-            if( false ) {
+/*
+            if( isset( $_COOKIE['remember_me'] ) && !is_null( $_COOKIE['remember_me'] ) ) {
 
-            // オートログインでOKならクッキーのタイムを更新
+                // オートログインでOKならクッキーのタイムを更新
+                $this->auth->_enableRememberMe();
+
+                // トップへリダイレクト
+                $this->util->redirect( '/' );
 
             // ログインチェック
             } else {
+*/
+              // ログインIDとパスワードでDB問い合わせ
+            if( $res =  $this->team->authenticate( $this->request->data ) ) {
 
-                // ログインIDとパスワードでDB問い合わせ
-                if( $res =  $this->team->authenticate( $this->request->data ) ) {
-
-                    // セッション情報にユーザーID格納
-
-                    // リダイレクト処理
-                    $this->util->redirect( '/root/index' );
-
+                if( $remember_me = $this->request->getParam( 'remember_me' ) ) {
+                    $this->auth->_enableRememberMe();
                 }
 
-                // ログイン失敗文言フラッシュセット
-                // エラーメッセージ取得
-                $error_msgs = $this->team->err_msg;
+                // セッション情報にユーザーID格納
+                $this->session->add( 'team', $res[0] );
 
-                // エラーメッセージセット
-                $this->request->set( 'error_msgs', $error_msgs );
+                // セッションフラグ有効
+                $this->session->add( 'is_login', 1 );
 
-
-                $this->request->set( 'data', $this->request->data['team'] );
+                // リダイレクト処理
+                $this->util->redirect( '/root/index' );
 
             }
+
+            // ログイン失敗文言フラッシュセット
+            // エラーメッセージ取得
+            $error_msgs = $this->team->err_msg;
+
+            // エラーメッセージセット
+            $this->request->set( 'error_msgs', $error_msgs );
+
+
+            $this->request->set( 'data', $this->request->data['team'] );
+
         }
     }
     // }}}
 
 
+    // {{{
+    /**
+     *
+     */
+    public function logout() {
+
+        // クッキー破棄
+        $this->auth->disableRemberMe();
+
+        // セッション破棄
+        $this->session->destroy();
+    }
+    // }}}
 }
 ?>

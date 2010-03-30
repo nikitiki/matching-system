@@ -24,10 +24,10 @@
         	<h2><?php echo SITE_NAME_TT; ?></h2>
           <div id="topmenu">
             	<ul>
-                    <li class="current"><a href="/">Dashboard</a></li>
-                    <li><a href="/teams/">Teams</a></li>
-                    <li><a href="#">Manage</a></li>
-                    <li><a href="#">Settings</a></li>
+                    <li class="<?php echo $this->html->currentTag( 'root', true ); ?>"><a href="/root/">トップ</a></li>
+                    <li class="<?php echo $this->html->currentTag( 'teams' ); ?>"><a href="/teams/">募集一覧</a></li>
+                    <li><a href="#">メッセージ一覧</a></li>
+                    <li class="<?php echo $this->html->currentTag( 'messages' ) ?>" class="<?php echo $this->html->currentTag( 'setting' );?>"><a href="#">設定</a></li>
               </ul>
           </div>
           <!-- /topmenu  -->

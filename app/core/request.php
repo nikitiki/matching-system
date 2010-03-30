@@ -58,7 +58,18 @@ class Request
      */
     private function uri_interpret() {
 
-        $requestURI = explode( '/', $_SERVER['REQUEST_URI'] );
+       // ホスト名以降を取得
+       $uri = $_SERVER['REQUEST_URI'];
+
+       // ?の出現位置を取得
+       $pos = strpos( $uri, '?' );
+
+       // ?以降を削除
+       if( $pos !== false ) {
+           $uri = substr( $uri, 0, $pos );
+       }
+
+        $requestURI = explode( '/', $uri );
         $scriptName = explode( '/', $_SERVER['SCRIPT_NAME'] );
 
         // 前者と後者の差異を比べて後者にないものを取得
