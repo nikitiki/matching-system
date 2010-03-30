@@ -14,6 +14,13 @@ class TeamsController extends AppController {
     // ヘルパー定義
     var $helper = array( 'prefecture' );
 
+
+    // {{{
+    public function beforeFilter() {
+        parent::beforeFilter();
+    }
+    // }}}
+
     // {{{ index
     /**
      * チーム一覧画面
@@ -136,7 +143,7 @@ class TeamsController extends AppController {
     public function login() {
 
         // オートログインチェック
-        if( false ) {
+        if( $this->isLogin() ) {
 
             // トップ画面へリダイレクト
             $this->util->redirect( '/' );
@@ -150,27 +157,19 @@ class TeamsController extends AppController {
         // POSTで
         } else {
 
-/*
-            if( isset( $_COOKIE['remember_me'] ) && !is_null( $_COOKIE['remember_me'] ) ) {
-
-                // オートログインでOKならクッキーのタイムを更新
-                $this->auth->_enableRememberMe();
-
-                // トップへリダイレクト
-                $this->util->redirect( '/' );
-
-            // ログインチェック
-            } else {
-*/
-              // ログインIDとパスワードでDB問い合わせ
+            // ログインIDとパスワードでDB問い合わせ
             if( $res =  $this->team->authenticate( $this->request->data ) ) {
 
                 if( $remember_me = $this->request->getParam( 'remember_me' ) ) {
-                    $this->auth->_enableRememberMe();
+                    // クッキーにトークンセット
+                    $token_key = $this->auth->_enableRememberMe();
+
+                    // DBにあるクッキー情報を更新
+                    $this->team->remember_me( $res['id'], $token_key );
                 }
 
                 // セッション情報にユーザーID格納
-                $this->session->add( 'team', $res[0] );
+                $this->session->add( 'team', $res );
 
                 // セッションフラグ有効
                 $this->session->add( 'is_login', 1 );
@@ -187,7 +186,7 @@ class TeamsController extends AppController {
             // エラーメッセージセット
             $this->request->set( 'error_msgs', $error_msgs );
 
-
+            // 入力した内容を表示
             $this->request->set( 'data', $this->request->data['team'] );
 
         }
@@ -202,11 +201,14 @@ class TeamsController extends AppController {
     public function logout() {
 
         // クッキー破棄
-        $this->auth->disableRemberMe();
+        $this->auth->_disableRememberMe();
 
         // セッション破棄
         $this->session->destroy();
+
+        $this->util->redirect( '/' );
     }
     // }}}
+
 }
 ?>

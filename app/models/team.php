@@ -95,7 +95,7 @@ class Team extends Model
         $password = crypt( $password, $user['salt'] );
 
         if( $user['password'] == $password ) {
-            return true;
+            return $user;
         }
         $this->err_msg['login_id'][] = ( 'ログインIDまたはパスワードが間違っています' );
         return false;
@@ -217,6 +217,37 @@ EMAIL;
         $ret['password-2'] = null;
 
         return $ret;
+    }
+    // }}}
+
+
+    // {{{
+    /**
+     * クッキー情報を再更新
+     */
+    public function remember_me( $id = null, $token_key = null ) {
+
+        if( is_null( $id ) || is_null( $token_key ) ) return;
+
+        // 更新期限限定
+        $data = array();
+
+        // 有効期限限定
+        $expires_at = time() + AUTO_LOGIN_EXPIRY;
+
+        $data['team']['remember_token_expires_at'] = $expires_at;
+        $data['team']['remember_token'] = $token_key;
+        $data['team']['id'] = $id;
+
+        // 更新処理
+        $res = $this->update( $data );
+
+        if( !$res ) return;
+
+        // 最新の情報取得
+        $team = $this->find( array( ':id' => $id ), 'WHERE id = :id' );
+
+        return $team;
     }
     // }}}
 
