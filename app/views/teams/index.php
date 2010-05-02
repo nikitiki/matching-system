@@ -1,4 +1,7 @@
+            <!-- content -->
+            <div id="content">
 
+                <!-- box -->
                 <div id="box">
                     <h3>Teams</h3>
 
@@ -37,6 +40,9 @@
 
                         </tbody>
                     </table>
+
+
+                    <!-- pager -->
                     <div id="pager">
                         Page <a href="#"><img src="img/icons/arrow_left.gif" width="16" height="16" /></a> 
                         <input size="1" value="1" type="text" name="page" id="page" /> 
@@ -50,9 +56,19 @@
                                 </select> 
                     per page | Total <strong>420</strong> records found
                     </div>
+                    <!-- /pager -->
 
                     <?php endif; ?>
 
                 </div>
+                <!-- /box  -->
 
-           
+           </div>
+           <!-- /content -->
+
+           <!-- sidebar -->
+           <div id="sidebar">
+               <h3 class="a-center"><a href="#">募集をする</a></h3>
+           </div>
+           <!-- /sidebar -->
+

@@ -1,4 +1,29 @@
 <?php
+
+
+// {{{ h
+/**
+ * cakeから移植
+ * エスケープ処理した値を返す
+ */
+function h( $text, $charset = null ) {
+
+    if( is_array( $text ) ) {
+        return array_map( 'h', $text );
+    }
+
+    if( empty( $charset ) ) {
+        $charset = APP_ENCODING;
+    }
+
+    if( empty( $charset ) ) {
+        $charset = 'UTF-8';
+    }
+
+    return htmlspecialchars( $text, ENT_QUOTES, $charset );
+}
+// }}}
+
 class Util {
 
     public function __construct() {}

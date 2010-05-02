@@ -33,7 +33,13 @@ class View_Manager
      * リクエストオブジェクト
      */
     private $request_obj;
-    
+
+
+    /**
+     * デフォルトヘルパー
+     */
+    private $helpers = array( 'html' );
+
 
     /**
      * コンストラクタ
@@ -116,23 +122,42 @@ class View_Manager
      */
     public function initHelper() {
 
-        // デフォルトヘルパーファイル取得
-        $helper_path = APP_LIBS_PATH . 'html.php';
+        // デフォルトで指定されたヘルパーを読み込み
+        foreach( $this->helpers as $helper ) {
 
-        // デフォルトヘルパー読み込み
-        include_once( $helper_path );
+            // デフォルトヘルパーファイル取得
+            $helper_path = APP_LIBS_HELPERS_PATH . $helper . '.php';
 
-        // デフォルトヘルパーインスタンス生成
-        $this->html = new HtmlHelper( $this->con_obj );
+            // デフォルトヘルパー読み込み
+            include_once( $helper_path );
 
-        $this->html->startup();
+            $helper_class_name = ucfirst( $helper ) . 'Helper';
 
+            // デフォルトヘルパーインスタンス生成
+            $this->$helper = new $helper_class_name( $this->con_obj );
+
+            $this->$helper->startup();
+
+        }
+
+        // ロジックで指定されたヘルパーを読み込み
         foreach( $this->con_obj->helper as $helper ) {
 
-            include_once( APP_HELPERS_PATH . $helper . '.php'  );
+            // libs/helpers/ディレクトリにファイルがあるかまず見る
+            if ( is_file( APP_LIBS_HELPERS_PATH . $helper . '.php' ) ) {
+
+                include_once( APP_LIBS_HELPERS_PATH . $helper . '.php' );
+            }
+
+            // view/helpers/ディレクトリにファイルがあるか調べる
+            if( is_file( APP_HELPERS_PATH . $helper . '.php' ) ) {
+
+                include_once( APP_HELPERS_PATH . $helper . '.php' );
+            }
 
             $class_name  = ucfirst( $helper ) . 'Helper';
 
+            // 指定ヘルパーインスタンス作成
             $this->$helper = new $class_name( $this->con_obj );
 
             $this->$helper->startup();

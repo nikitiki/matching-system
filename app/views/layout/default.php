@@ -37,12 +37,8 @@
       <!-- wrapper -->
       <div id="wrapper">
 
-          <div id="noside_content">
-
           <?php echo $this->content(); ?>
 
-          </div>
-            
       </div>
       <!-- /wrapper -->
 

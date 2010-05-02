@@ -17,6 +17,9 @@ select{
 #content{
 	background:#FFF;
 }
+#noside_content{
+    background:#FFF;
+}
 #sidebar{
 	background:#FFF;
 }

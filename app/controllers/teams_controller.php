@@ -1,6 +1,6 @@
 <?php
 /**
- * チーム登録
+ * チーム
  *
  */
 class TeamsController extends AppController {
@@ -38,9 +38,6 @@ class TeamsController extends AppController {
      * チーム登録フォーム画面
      */
     public function add() {
-
-        // テンプレート設定
-        $this->setTemplate( 'nologin' );
 
         // カラム名取得 →テンプレート変数初期化
         $this->request->set( 'data', $this->team->schema() );
@@ -90,7 +87,7 @@ class TeamsController extends AppController {
             // 保存処理
             $id = $this->team->insert( $this->request->data );
 
-            // メール尊信処理
+            // メール送信処理
             if( !$res = $this->team->sendVerificationEmail( $id, $this->util->getHostInfo() ) ) {
                 trigger_error( 'メール送信失敗しました', E_USER_ERROR );
             } 

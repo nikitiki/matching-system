@@ -23,4 +23,9 @@ define( 'SITE_NAME_TT', 'MATCHING SYSTEM' );
  */
 define( 'AUTO_LOGIN_EXPIRY', 60 * 60 * 24 * 7 );
 
+
+/**
+ * 文字コード
+ */
+define( 'APP_ENCODING', 'UTF-8' );
 ?>

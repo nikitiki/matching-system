@@ -1,4 +1,6 @@
 
+           <div id="noside_content">
+
                <?php /* エラーメッセージ出力  */ ?>
                <?php if( isset( $error_msgs ) && $error_msgs ) : ?>
                <div id="caution">
@@ -29,16 +31,16 @@
                         <br />
                         <label for="email">Email : </label>
                         <input name="team/email" id="email" type="text" 
-                        tabindex="2" value="<?php echo $data['email']; ?>" />
+                        tabindex="3" value="<?php echo $data['email']; ?>" />
                         <br />
 
                         <label for="password">パスワード: </label>
                         <input name="team/password" id="password" type="password" 
-                        tabindex="2" value="<?php echo $data['password']; ?>" />
+                        tabindex="4" value="<?php echo $data['password']; ?>" />
                         <br />
                         <label for="password-2">パスワード確認: </label>
                         <input name="team/password-2" id="password-2" type="password" 
-                        tabindex="2" value="<?php echo $data['password-2'] ?>" />
+                        tabindex="5" value="<?php echo $data['password-2'] ?>" />
                         <br />
                       </fieldset>
                       <fieldset id="address">
@@ -55,3 +57,5 @@
                     </form>
 
                 </div>
+
+            </div>

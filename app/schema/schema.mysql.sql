@@ -31,7 +31,7 @@ CREATE TABLE collect
     id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
     team_id INTEGER NOT NULL,
     day DATE NOT NULL,
-    time TIME,
+    time TEXT,
     locate TEXT NOT NULL,
     note TEXT,
     apply_flg INTEGER NOT NULL DEFAULT 0
