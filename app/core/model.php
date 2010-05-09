@@ -162,6 +162,18 @@ class Model
     }
     // }}}
 
+
+    // {{{
+    /**
+     *
+     */
+    public function query( $query, $bind_params = null, $condition = null ) {
+
+        $res = $this->db->find( $query, $this->con, $bind_params );
+
+        return $res;
+    }
+
     // {{{ find
     /**
      *

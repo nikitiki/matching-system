@@ -13,6 +13,9 @@ class CollectsController extends AppController {
     // ヘルパー設定
     var $helper = array( 'form', 'prefecture' );
 
+    // １ページに表示する件数
+    const PERPAGE_CNT = 10;
+
 
     // {{{
     public function beforeFilter() {
@@ -26,8 +29,36 @@ class CollectsController extends AppController {
      */
     public function index() {
 
+        // 検索条件追加
+        $where_query = '';
+        $where_value = array();
+
+        // 取得開始位置
+        $curpage = ( $page = $this->request->getParam( 'page' ) ) ? $page : 1 ;
+
+        // 取得数
+        $count = $this->collect->query( 
+            ' SELECT count(*) as count FROM collect JOIN team ' . 
+            '  WHERE collect.team_id = team.id  ' . $where_query 
+            , $where_value
+        );
+
+        // ページャー設定
+        $pager = Pager::getPager( $count[0]['count'], $curpage, self::PERPAGE_CNT );
+
         // 募集一覧取得
-        $this->request->set( 'collects', $this->collect->find() );
+        $collects = $this->collect->query(
+            'SELECT collect.*, team.name ' .
+            ' FROM collect ' .
+            ' JOIN team  WHERE collect.team_id = team.id '. $where_query .
+            ' limit ' . $pager['limit'] . ' offset ' . $pager['offset']
+            , $where_value
+        );      
+ 
+        $this->request->set( 'pager',  $pager );
+
+        // viewにセット
+        $this->request->set( 'collects', $collects );
 
     }
     // }}}
