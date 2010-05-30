@@ -106,21 +106,13 @@ class Model
                                         // エラーメッセージ取得
                                         $this->err_msg[$column][] = $validate->getErrMsg( $rule, $rules[$column]['name'] );
                                     }
-                                    // } if
                                 }
-                                // } if
                             }
-                            // } foreach
                         }
-                        // } if
                     }
-                    // } foreach
                 }
-                // } if
             }
-            // } foreach
         }
-        // } foreach
         return ( empty( $this->err_msg ) );
     }
     // }}}
