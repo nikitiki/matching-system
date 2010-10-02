@@ -1,4 +1,5 @@
 
+            <div id='content'>
                 <?php /* エラーメッセージ出力  */ ?>
                 <?php if( isset( $error_msgs ) && $error_msgs ) : ?>
                 <div id="caution">
@@ -43,3 +44,4 @@
                     </form>
 
                 </div>
+           </div>
